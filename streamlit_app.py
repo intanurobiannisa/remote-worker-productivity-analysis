@@ -152,4 +152,5 @@ st.write(
         "Higher values are associated with higher productivity."
 )
 
+st.markdown("<small>Code Reference: https://github.com/intanurobiannisa/remote-worker-productivity-analysis/</small>", unsafe_allow_html=True)
 
