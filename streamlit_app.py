@@ -31,7 +31,7 @@ st.write(
 
 # Show a multiselect widget with the industry sector using `st.multiselect`.
 industries = st.multiselect(
-    "Workers by the Industry Sector",
+    "Worker Selection by the Industry Sector",
     df.industry_sector.unique(),
 )
 
@@ -46,10 +46,11 @@ with st.expander("Display DataFrame"):
     st.dataframe(filtered_df, use_container_width=True)
 
 # Create tabs
-tab1, tab2, tab3 = st.tabs([
+tab1, tab2, tab3, tab4 = st.tabs([
     "Location Type",
     "Age Distribution",
-    "Experience Years"
+    "Experience Years",
+    "Industry Sector"
 ])
 
 with tab1:
@@ -93,12 +94,26 @@ with tab3:
     )
     st.altair_chart(exp_chart, use_container_width=True)
 
+with tab4:
+    # Industry Sector Distribution
+    st.subheader("Worker Distribution by Industry Sector")
+    exp_counts = filtered_df['industry_sector'].value_counts().reset_index()
+    exp_counts.columns = ['industry_sector', 'count']
+    exp_counts = exp_counts.sort_values('industry_sector')
+    exp_chart = alt.Chart(exp_counts).mark_bar().encode(
+        y=alt.Y('industry_sector:O', title=None, axis=alt.Axis(labelAngle=360)),
+        x=alt.X('count:Q', title='Number of Workers'),
+        color=alt.Color('industry_sector:N', title='Industry Sector'),
+        tooltip=['industry_sector', 'count']
+    )
+    st.altair_chart(exp_chart, use_container_width=True)
+
 st.subheader("Findings")
 st.write(
     """Individual work habits—especially effective scheduling, focused time, and on-time task completion—are the strongest predictors of productivity, far outweighing demographic factors like location or tool frequency.  
     Then, A/B testing was used in the case implementation to compare productivity scores between workers who use AI-assisted planning tools and those who frequently use calendar scheduling tools.
     The productivity scores for users of AI-assisted planning vs. high calendar usage (top 25%) are not the same,
-    where calendar Scheduling users clearly outperform AI Planning users in productivity score—both by mean (-+9.2 points) and median (-+8.8 points).
+    where Calendar Scheduling users clearly outperform AI Planning users in productivity score—both by mean (-+9.2 points) and median (-+8.8 points).
 """
 )
 
@@ -150,6 +165,11 @@ with tab3:
 
 st.write(
         "Higher values are associated with higher productivity."
+)
+
+st.subheader("Recommendation")
+st.write(
+    "Focusing on structured calendar use, timely task completion, and uninterrupted focus time offers the greatest opportunity to boost productivity—more than changing tools, roles, or locations."
 )
 
 st.markdown("<small>Code Reference: https://github.com/intanurobiannisa/remote-worker-productivity-analysis/</small>", unsafe_allow_html=True)
