@@ -24,9 +24,10 @@ st.write(
 
 st.subheader("Overall Summary")
 st.write(
-    "From 1000 remote workers, they are spread relatively evenly across demographic groups, showing that remote work spans various backgrounds and is not limited to specific industries, age groups, or regions. " \
-    "The number of workers from cities, towns, and villages shows nearly equal representation. Industry sectors such as Education, IT, and Retail contribute similar worker counts, while Healthcare and Finance have slightly smaller numbers. " \
-    "Age and experience distributions are broad yet balanced, with noticeable peaks around age 42 and 17 years of experience—indicating a mature and seasoned workforce at the core of the dataset."
+    """From 1000 remote workers, they are spread relatively evenly across demographic groups, showing that remote work spans various backgrounds and is not limited to specific industries, age groups, or regions.  
+    The number of workers from cities, towns, and villages shows nearly equal representation. However, most workers tend to work in cities.  
+    Age and experience distributions are broad yet balanced, with noticeable peaks around age 42 and 17 years of experience—indicating a mature and seasoned workforce at the core of the dataset.  
+    Industry sectors such as Education, IT, and Retail contribute similar worker counts, while Healthcare and Finance have slightly smaller numbers."""
 )
 
 # Show a multiselect widget with the industry sector using `st.multiselect`.
