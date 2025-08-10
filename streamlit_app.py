@@ -59,6 +59,11 @@ with tab1:
     st.subheader("Worker Distribution by Location Type")
     location_counts = filtered_df['location_type'].value_counts().reset_index()
     location_counts.columns = ['location_type', 'count']
+    # Find the location type with the maximum count
+    max_location = location_counts.loc[location_counts['count'].idxmax()]
+    st.markdown(
+        f"Most common location type: {max_location['location_type']} with {max_location['count']} workers."
+    )
     location_chart = alt.Chart(location_counts).mark_bar().encode(
         x=alt.X('count:Q', title='Number of Workers'),
         y=alt.Y('location_type:O', title=None),
@@ -73,6 +78,11 @@ with tab2:
     age_counts = filtered_df['age'].value_counts().reset_index()
     age_counts.columns = ['age', 'count']
     age_counts = age_counts.sort_values('age')
+    # Find the age with the maximum count
+    max_age = age_counts.loc[age_counts['count'].idxmax()]
+    st.markdown(
+        f"Oldest age: {max_age['age']} years old with {max_age['count']} workers."
+    )
     age_chart = alt.Chart(age_counts).mark_bar().encode(
         x=alt.X('age:O', title='Age', axis=alt.Axis(labelAngle=360)),
         y=alt.Y('count:Q', title='Number of Workers'),
@@ -87,6 +97,11 @@ with tab3:
     exp_counts = filtered_df['experience_years'].value_counts().reset_index()
     exp_counts.columns = ['experience_years', 'count']
     exp_counts = exp_counts.sort_values('experience_years')
+    # Find the experience years with the maximum count
+    max_exp = exp_counts.loc[exp_counts['count'].idxmax()]
+    st.markdown(
+        f"Longest experience years: {max_exp['experience_years']} years with {max_exp['count']} workers."
+    )
     exp_chart = alt.Chart(exp_counts).mark_bar().encode(
         x=alt.X('experience_years:O', title='Years of Experience', axis=alt.Axis(labelAngle=360)),
         y=alt.Y('count:Q', title='Number of Workers'),
@@ -98,16 +113,26 @@ with tab3:
 with tab4:
     # Industry Sector Distribution
     st.subheader("Worker Distribution by Industry Sector")
-    exp_counts = filtered_df['industry_sector'].value_counts().reset_index()
-    exp_counts.columns = ['industry_sector', 'count']
-    exp_counts = exp_counts.sort_values('industry_sector')
-    exp_chart = alt.Chart(exp_counts).mark_bar().encode(
+    sector_counts = filtered_df['industry_sector'].value_counts().reset_index()
+    sector_counts.columns = ['industry_sector', 'count']
+    sector_counts = sector_counts.sort_values('industry_sector')
+    # Find the industry sector with the maximum count
+    max_sector = sector_counts.loc[sector_counts['count'].idxmax()]
+    if industries:
+        st.markdown(
+            f"Total {max_sector['count']} workers."
+        )
+    else:
+        st.markdown(
+            f"Most common industry sector: {max_sector['industry_sector']} with {max_sector['count']} workers."
+        )
+    sector_chart = alt.Chart(sector_counts).mark_bar().encode(
         y=alt.Y('industry_sector:O', title=None, axis=alt.Axis(labelAngle=360)),
         x=alt.X('count:Q', title='Number of Workers'),
         color=alt.Color('industry_sector:N', title='Industry Sector'),
         tooltip=['industry_sector', 'count']
     )
-    st.altair_chart(exp_chart, use_container_width=True)
+    st.altair_chart(sector_chart, use_container_width=True)
 
 st.subheader("Findings")
 st.write(
@@ -128,6 +153,9 @@ tab1, tab2, tab3 = st.tabs([
 with tab1:
    # Line chart: Productivity Score vs Calendar Scheduling Usage
     st.subheader("📈 Productivity Score vs Calendar Scheduling Usage")
+    st.markdown(
+        "Higher values are associated with higher productivity."
+    )
     line_chart = alt.Chart(filtered_df).mark_line(point=True).encode(
         x=alt.X("calendar_scheduled_usage:Q", title="Calendar Scheduling Usage"),
         y=alt.Y("productivity_score:Q", title="Productivity Score"),
@@ -141,6 +169,9 @@ with tab1:
 with tab2:
     # Line chart: Productivity Score vs Focus Time (minutes)
     st.subheader("📈 Productivity Score vs Focus Time (minutes)")
+    st.markdown(
+        "Higher values are associated with higher productivity."
+    )
     line_chart = alt.Chart(filtered_df).mark_line(point=True).encode(
         x=alt.X("focus_time_minutes:Q", title="Focus Time (minutes)"),
         y=alt.Y("productivity_score:Q", title="Productivity Score"),
@@ -154,6 +185,9 @@ with tab2:
 with tab3:
     # Line chart: Productivity Score vs Task Completion Rate
     st.subheader("📈 Productivity Score vs Task Completion Rate")
+    st.markdown(
+        "Higher values are associated with higher productivity."
+    )
     line_chart = alt.Chart(filtered_df).mark_line(point=True).encode(
         x=alt.X("task_completion_rate:Q", title="Task Completion Rate"),
         y=alt.Y("productivity_score:Q", title="Productivity Score"),
@@ -163,10 +197,6 @@ with tab3:
         height=400
     )
     st.altair_chart(line_chart, use_container_width=True)
-
-st.write(
-        "Higher values are associated with higher productivity."
-)
 
 st.subheader("Recommendation")
 st.write(
