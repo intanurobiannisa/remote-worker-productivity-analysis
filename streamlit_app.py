@@ -27,7 +27,7 @@ st.write(
     """From 1000 remote workers, they are spread relatively evenly across demographic groups, showing that remote work spans various backgrounds and is not limited to specific industries, age groups, or regions.  
     The number of workers from cities, towns, and villages shows nearly equal representation. However, most workers tend to work in cities.  
     Age and experience distributions are broad yet balanced, with noticeable peaks around age 42 and 17 years of experience—indicating a mature and seasoned workforce at the core of the dataset.  
-    Industry sectors such as Education, IT, and Retail contribute similar worker counts, while Healthcare and Finance have slightly smaller numbers."""
+    Industry sectors such as Education which is the same with IT, and Retail contribute similar worker counts, while Healthcare and Finance have slightly smaller numbers."""
 )
 
 # Show a multiselect widget with the industry sector using `st.multiselect`.
@@ -118,14 +118,9 @@ with tab4:
     sector_counts = sector_counts.sort_values('industry_sector')
     # Find the industry sector with the maximum count
     max_sector = sector_counts.loc[sector_counts['count'].idxmax()]
-    if industries:
-        st.markdown(
-            f"Total {max_sector['count']} workers."
-        )
-    else:
-        st.markdown(
-            f"Most common industry sector: {max_sector['industry_sector']} with {max_sector['count']} workers."
-        )
+    st.markdown(
+        f"Most common industry sector: {max_sector['industry_sector']} with {max_sector['count']} workers."
+    )
     sector_chart = alt.Chart(sector_counts).mark_bar().encode(
         y=alt.Y('industry_sector:O', title=None, axis=alt.Axis(labelAngle=360)),
         x=alt.X('count:Q', title='Number of Workers'),
